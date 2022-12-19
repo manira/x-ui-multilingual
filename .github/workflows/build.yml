@@ -4,7 +4,8 @@ name: Build x-ui-multilingual
 
 on:
   push:
-    branches: [ "develop" ]
+    tags:
+      - *-rc
 
 env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
@@ -29,8 +30,8 @@ jobs:
         run: |-
           docker build \
             --target release_candidate \
-            --tag "$DOCKER_USER/$IMAGE:$VERSION" \
-            --tag "$DOCKER_USER/$IMAGE:bullseye" \
+            --tag "$DOCKER_USER/$IMAGE:$GITHUB_REF_TYPE" \
+            --tag "$DOCKER_USER/$IMAGE:bullseye-$GITHUB_REF_TYPE" \
             --build-arg GITHUB_SHA="$GITHUB_SHA" \
             --build-arg GITHUB_REF="$GITHUB_REF" \
             -f Dockerfile \
@@ -38,5 +39,5 @@ jobs:
       # Push the Docker image to Google Artifact Registry
       - name: Publish
         run: |-
-          docker push "$DOCKER_USER/$IMAGE:$VERSION"
-          docker push "$DOCKER_USER/$IMAGE:bullseye"
+          docker push "$DOCKER_USER/$IMAGE:$GITHUB_REF_TYPE"
+          docker push "$DOCKER_USER/$IMAGE:bullseye-$GITHUB_REF_TYPE"

@@ -1,0 +1,10 @@
+version: '3'
+services:
+  xui:
+    image: manira/x-ui-multilingual:latest
+    container_name: x-ui-multilingual
+    volumes:
+      - $PWD/db/:/etc/x-ui/
+      - $PWD/cert/:/root/cert/
+    restart: unless-stopped
+    network_mode: host

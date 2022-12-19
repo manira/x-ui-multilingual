@@ -38,12 +38,12 @@ jobs:
       - name: Scan for vulnerabilities
         uses: crazy-max/ghaction-container-scan@v2
         with:
-          image: ${{ DOCKER_USER/IMAGE:GITHUB_REF_NAME }}
+          image: ${{ DOCKER_USER }}/${{ IMAGE} }:${{ GITHUB_REF_NAME }}
 
       - name: Scan image
         uses: anchore/scan-action@v3
         with:
-          image: ${{ DOCKER_USER/IMAGE:GITHUB_REF_NAME }}
+          image: ${{ DOCKER_USER }}/${{ IMAGE} }:${{ GITHUB_REF_NAME }}
 
       # Push the Docker image to Google Artifact Registry
       - name: Publish

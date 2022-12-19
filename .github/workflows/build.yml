@@ -36,11 +36,13 @@ jobs:
             .
 
       - name: Scan for vulnerabilities
+        continue-on-error: true
         uses: crazy-max/ghaction-container-scan@v2
         with:
           image: ${{ env.DOCKER_USER }}/${{ env.IMAGE }}:${{ github.ref_name }}
 
       - name: Scan image
+        continue-on-error: true
         uses: azure/container-scan@v0
         with:
           image-name: ${{ env.DOCKER_USER }}/${{ env.IMAGE }}:${{ github.ref_name }}

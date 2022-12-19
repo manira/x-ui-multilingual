@@ -1,6 +1,6 @@
 # Build a docker container and publish it to Dockerhub.
 
-name: Build x-ui-multilingual by @${{ github.actor }}
+name: Build x-ui-multilingual
 
 on:
   push:

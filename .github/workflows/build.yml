@@ -3,9 +3,8 @@
 name: Build x-ui-multilingual
 
 on:
-  push:
-    tags:
-      - '*-rc'
+  release:
+      types: [published]
 
 env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}

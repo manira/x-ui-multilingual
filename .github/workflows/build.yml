@@ -43,7 +43,7 @@ jobs:
       - name: Scan image
         uses: anchore/scan-action@v3
         with:
-          image: ${{ env.DOCKER_USER/env.IMAGE:env.GITHUB_REF_NAME }}
+          image: ${{ env.DOCKER_USER }}/${{ env.IMAGE }}:${{ env.GITHUB_REF_NAME }}
 
       # Push the Docker image to Google Artifact Registry
       - name: Publish

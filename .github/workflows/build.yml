@@ -35,6 +35,12 @@ jobs:
             --build-arg GITHUB_REF="$GITHUB_REF" \
             -f Dockerfile \
             .
+
+      - name: Container scanner
+        uses: azure/container-scan@v0
+        with:
+          image-name: "$DOCKER_USER/$IMAGE:$GITHUB_REF_NAME"
+
       # Push the Docker image to Google Artifact Registry
       - name: Publish
         run: |-

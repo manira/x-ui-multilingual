@@ -27,8 +27,6 @@ jobs:
       # Build the Docker image
       - name: Build
         run: |-
-          ls -la
-          cd x-ui-multilingual
           docker build \
             --target release_candidate \
             --tag "$DOCKER_USER/$IMAGE:$VERSION" \

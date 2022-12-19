@@ -10,7 +10,7 @@ env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
   IMAGE: x-ui-multilingual
-  VERSION: temp
+  VERSION: rc
 
 jobs:
   docker_image:
@@ -31,8 +31,7 @@ jobs:
           docker build \
             --target release_candidate \
             --tag "$DOCKER_USER/$IMAGE:$VERSION" \
-            --tag "$DOCKER_USER/$IMAGE:latest" \
-            --tag "$DOCKER_USER/$IMAGE:focal" \
+            --tag "$DOCKER_USER/$IMAGE:bullseye" \
             --build-arg GITHUB_SHA="$GITHUB_SHA" \
             --build-arg GITHUB_REF="$GITHUB_REF" \
             -f Dockerfile \
@@ -41,5 +40,4 @@ jobs:
       - name: Publish
         run: |-
           docker push "$DOCKER_USER/$IMAGE:$VERSION"
-          docker push "$DOCKER_USER/$IMAGE:latest"
-          docker push "$DOCKER_USER/$IMAGE:focal"
+          docker push "$DOCKER_USER/$IMAGE:bullseye"

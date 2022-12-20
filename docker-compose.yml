@@ -1,7 +1,7 @@
 version: '3'
 services:
   xui:
-    image: manira/x-ui-multilingual:latest
+    image: "${X_UI_IMAGE}"
     container_name: x-ui-multilingual
     environment:
       - X_UI_PORT=${X_UI_PORT:-54321}

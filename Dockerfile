@@ -5,7 +5,6 @@ RUN go build main.go
 
 
 FROM debian:11-slim AS release_candidate
-LABEL org.opencontainers.image.authors="manira"
 ENV TZ=Europe/Amsterdam
 RUN apt-get update && apt-get install -y --no-install-recommends -y ca-certificates \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

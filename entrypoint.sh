@@ -5,5 +5,4 @@ if [ ! -f /etc/x-ui/x-ui.db ]; then
     ./x-ui setting -username $X_UI_USERNAME -password $X_UI_PASSWORD
 fi
 
-# Run X-UI-MULTILINGUAL
 exec "$@";

@@ -3,15 +3,13 @@
 name: Build x-ui-multilingual
 
 on:
-  push:
-    tags:
-      - *-rc
+  release:
+      types: [published]
 
 env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
   IMAGE: x-ui-multilingual
-  VERSION: rc
 
 jobs:
   docker_image:
@@ -30,14 +28,27 @@ jobs:
         run: |-
           docker build \
             --target release_candidate \
-            --tag "$DOCKER_USER/$IMAGE:$GITHUB_REF_TYPE" \
-            --tag "$DOCKER_USER/$IMAGE:bullseye-$GITHUB_REF_TYPE" \
+            --tag "$DOCKER_USER/$IMAGE:$GITHUB_REF_NAME" \
+            --tag "$DOCKER_USER/$IMAGE:bullseye-$GITHUB_REF_NAME" \
             --build-arg GITHUB_SHA="$GITHUB_SHA" \
             --build-arg GITHUB_REF="$GITHUB_REF" \
             -f Dockerfile \
             .
+
+      - name: Scan for vulnerabilities
+        continue-on-error: true
+        uses: crazy-max/ghaction-container-scan@v2
+        with:
+          image: ${{ env.DOCKER_USER }}/${{ env.IMAGE }}:${{ github.ref_name }}
+
+      - name: Scan image
+        continue-on-error: true
+        uses: azure/container-scan@v0
+        with:
+          image-name: ${{ env.DOCKER_USER }}/${{ env.IMAGE }}:${{ github.ref_name }}
+
       # Push the Docker image to Google Artifact Registry
       - name: Publish
         run: |-
-          docker push "$DOCKER_USER/$IMAGE:$GITHUB_REF_TYPE"
-          docker push "$DOCKER_USER/$IMAGE:bullseye-$GITHUB_REF_TYPE"
+          docker push "$DOCKER_USER/$IMAGE:$GITHUB_REF_NAME"
+          docker push "$DOCKER_USER/$IMAGE:bullseye-$GITHUB_REF_NAME"
